@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     <!-- <script src="./static/jquery-3.3.1.min.js" type="text/javascript"></script> -->
+     <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+<div id="contents" style="height:500px;overflow:auto;background-color: darkgray;"></div>
+<div>
+    <textarea id="message"></textarea>
+    <input type="button" value="发送" onclick="sendmsg()" id="send">
+</div>
+</body>
+<script>
+    var ws = new WebSocket("ws://"+location.host+"/chat");
+    var contents = document.getElementById("contents");
+    var msg = document.getElementById("message");
+    ws.onmessage = function (evt) {
+        var msg1 = "<p>"+evt.data+"</p>";
+        contents.innerHTML+=msg1;
+    }
+    // $('#send').on('keypress', function(e){
+    //     if (e.keyCode == 13){
+    //         sendmsg()
+    //     }
+
+    // });
+    function sendmsg() {
+        ws.send(msg.value);
+        msg.value = "";
+    }
+</script>
+</html>
+
